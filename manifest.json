@@ -1,7 +1,7 @@
 {
-  "name": "Laboratorium Bahasa FSB UKI",
-  "short_name": "Lab Bahasa",
-  "description": "Laboratorium Bahasa Fakultas Sastra dan Bahasa, Universitas Kristen Indonesia",
+  "name": "Language Laboratory FSB UKI",
+  "short_name": "LINGUA FSB",
+  "description": "Language Laboratory Fakultas Sastra dan Bahasa, Universitas Kristen Indonesia",
   "lang": "id",
   "start_url": "./index.html",
   "scope": "./",
