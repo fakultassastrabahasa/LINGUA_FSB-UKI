@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lab Bahasa FSB UKI</title>
+  <meta name="description" content="Laboratorium Bahasa Fakultas Sastra dan Bahasa, Universitas Kristen Indonesia">
+  <meta name="theme-color" content="#1e3a8a">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+
+  <!-- iPhone / iPad -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Lab Bahasa">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <style>
+    :root { --biru: #1e3a8a; --biru-muda: #3b5bdb; --kuning: #f5b301; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--biru);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px 16px;
+      text-align: center;
+    }
+    .kartu { max-width: 380px; width: 100%; }
+    .kartu img { width: 112px; height: 112px; border-radius: 24px; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+    h1 { font-size: 1.4rem; margin: 20px 0 4px; }
+    p  { margin: 0 0 20px; opacity: .85; line-height: 1.5; }
+    .putar {
+      width: 36px; height: 36px; margin: 8px auto 20px;
+      border: 4px solid rgba(255,255,255,.25); border-top-color: var(--kuning);
+      border-radius: 50%; animation: putar 0.9s linear infinite;
+    }
+    @keyframes putar { to { transform: rotate(360deg); } }
+    .tombol {
+      display: block; width: 100%; padding: 14px 16px; margin-top: 10px;
+      border: 0; border-radius: 12px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+    }
+    .utama { background: var(--kuning); color: #1b1b1b; }
+    .kedua { background: rgba(255,255,255,.12); color: #fff; }
+    .tersembunyi { display: none; }
+    .catatan { font-size: .85rem; opacity: .75; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <main class="kartu">
+    <img src="icons/icon-192.png" alt="Logo Lab Bahasa FSB UKI">
+    <h1>Laboratorium Bahasa</h1>
+    <p>Fakultas Sastra dan Bahasa<br>Universitas Kristen Indonesia</p>
+
+    <div id="memuat">
+      <div class="putar" aria-hidden="true"></div>
+      <p>Membuka aplikasi…</p>
+    </div>
+
+    <a id="tombolBuka" class="tombol utama" href="#">Buka Lab Bahasa</a>
+    <button id="tombolInstal" class="tombol kedua tersembunyi" type="button">📲 Instal sebagai Aplikasi</button>
+    <p id="panduanIos" class="catatan tersembunyi">
+      Di iPhone: ketuk tombol <b>Bagikan</b> lalu pilih <b>Tambahkan ke Layar Utama</b>.
+    </p>
+    <p id="pesanOffline" class="catatan tersembunyi">
+      Tidak ada koneksi internet. Sambungkan internet lalu ketuk “Buka Lab Bahasa”.
+    </p>
+  </main>
+
+  <script>
+    // ===================================================================
+    //  SATU-SATUNYA BARIS YANG PERLU DIUBAH:
+    //  Tempel link yang biasa dibuka pengguna (link Gerbang Login /exec).
+    // ===================================================================
+    const URL_APLIKASI = "https://script.google.com/macros/s/AKfycbxR0olHCsrcbKluK7WAeuCIL5eih6K89_Hd5usFKAFgytgbNu3ayr_bQGpz3M88cNJb/exec";
+
+    const tombolBuka   = document.getElementById("tombolBuka");
+    const tombolInstal = document.getElementById("tombolInstal");
+    tombolBuka.href = URL_APLIKASI;
+
+    // Daftarkan service worker (syarat agar bisa diinstal)
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+
+    // Apakah halaman ini sedang dibuka sebagai aplikasi terinstal?
+    const sudahTerinstal =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      window.navigator.standalone === true;
+
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+    if (sudahTerinstal) {
+      // Dibuka dari ikon aplikasi → langsung masuk ke website Lab Bahasa
+      if (navigator.onLine) {
+        window.location.replace(URL_APLIKASI);
+      } else {
+        document.getElementById("memuat").classList.add("tersembunyi");
+        document.getElementById("pesanOffline").classList.remove("tersembunyi");
+      }
+    } else {
+      // Dibuka dari browser biasa → tampilkan tombol instal
+      document.getElementById("memuat").classList.add("tersembunyi");
+      if (isIos) document.getElementById("panduanIos").classList.remove("tersembunyi");
+    }
+
+    // Tombol "Instal" untuk Android & laptop (Chrome/Edge)
+    let promptInstal = null;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      promptInstal = e;
+      tombolInstal.classList.remove("tersembunyi");
+    });
+    tombolInstal.addEventListener("click", async () => {
+      if (!promptInstal) return;
+      promptInstal.prompt();
+      await promptInstal.userChoice;
+      promptInstal = null;
+      tombolInstal.classList.add("tersembunyi");
+    });
+    window.addEventListener("appinstalled", () => tombolInstal.classList.add("tersembunyi"));
+  </script>
+</body>
+</html>
