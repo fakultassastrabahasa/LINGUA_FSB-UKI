@@ -1,7 +1,7 @@
 // Service worker sederhana untuk aplikasi Lab Bahasa FSB UKI.
 // Menyimpan halaman pembuka & ikon agar aplikasi tetap terbuka walau sinyal lemah.
 // Jika file-file ini diubah, naikkan nomor versi di bawah (v1 → v2, dst).
-const CACHE = "labbahasa-v5";
+const CACHE = "labbahasa-v6";
 const FILES = [
   "./",
   "./index.html",

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lab Bahasa FSB UKI</title>
   <meta name="description" content="Laboratorium Bahasa Fakultas Sastra dan Bahasa, Universitas Kristen Indonesia">
-  <meta name="theme-color" content="#1e3a8a">
+  <meta name="theme-color" content="#eef2fb">
 
   <!-- PWA -->
   <link rel="manifest" href="manifest.json">
@@ -16,44 +16,48 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Lab Bahasa">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <style>
-    :root { --biru: #1e3a8a; --biru-muda: #3b5bdb; --kuning: #f5b301; }
+    :root { --biru: #1e3a8a; --biru-tua: #0b1d55; --kuning: #f5b301; --abu: #5b6785; }
     * { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; }
     body {
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      background: var(--biru);
-      color: #fff;
+      background:
+        radial-gradient(circle at 50% 30%, #ffffff 0%, #eef2fb 55%, #dfe6f6 100%);
+      color: var(--biru-tua);
       display: flex; align-items: center; justify-content: center;
       padding: 24px 16px;
       text-align: center;
     }
     .kartu { max-width: 380px; width: 100%; }
-    .kartu img { width: 112px; height: 112px; border-radius: 24px; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
-    h1 { font-size: 1.4rem; margin: 20px 0 4px; }
-    p  { margin: 0 0 20px; opacity: .85; line-height: 1.5; }
+    .logo {
+      width: 136px; height: 136px; border-radius: 30px;
+      box-shadow: 0 0 0 6px #ffffff, 0 0 0 8px rgba(245,179,1,.55), 0 18px 40px rgba(11,29,85,.35);
+    }
+    h1 { font-size: 1.45rem; margin: 26px 0 4px; color: var(--biru-tua); }
+    p  { margin: 0 0 22px; color: var(--abu); line-height: 1.5; }
     .putar {
       width: 36px; height: 36px; margin: 8px auto 20px;
-      border: 4px solid rgba(255,255,255,.25); border-top-color: var(--kuning);
+      border: 4px solid rgba(30,58,138,.18); border-top-color: var(--kuning);
       border-radius: 50%; animation: putar 0.9s linear infinite;
     }
     @keyframes putar { to { transform: rotate(360deg); } }
     .tombol {
       display: block; width: 100%; padding: 14px 16px; margin-top: 10px;
       border: 0; border-radius: 12px; font-size: 1rem; font-weight: 600;
-      cursor: pointer; text-decoration: none;
+      cursor: pointer; text-decoration: none; font-family: inherit;
     }
-    .utama { background: var(--kuning); color: #1b1b1b; }
-    .kedua { background: rgba(255,255,255,.12); color: #fff; }
+    .utama { background: var(--kuning); color: #1b1b1b; box-shadow: 0 6px 16px rgba(245,179,1,.35); }
+    .kedua { background: var(--biru-tua); color: #fff; }
     .tersembunyi { display: none; }
-    .catatan { font-size: .85rem; opacity: .75; margin-top: 16px; }
+    .catatan { font-size: .85rem; margin-top: 16px; }
   </style>
 </head>
 <body>
   <main class="kartu">
-    <img src="icons/icon-192.png" alt="Logo Lab Bahasa FSB UKI">
+    <img class="logo" src="icons/icon-512.png" alt="Logo LINGUA FSB-UKI">
     <h1>Laboratorium Bahasa</h1>
     <p>Fakultas Sastra dan Bahasa<br>Universitas Kristen Indonesia</p>
 
